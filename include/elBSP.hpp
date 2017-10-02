@@ -16,6 +16,9 @@
 #if !defined (__ELVECTOR_HPP)
 #	include "elVector.hpp"
 #endif
+#if !defined (__ELDEFS_HPP)
+#	include "elDefs.hpp"
+#endif
 
 namespace EL
 {

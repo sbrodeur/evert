@@ -119,13 +119,6 @@ void GLUT::motion (int x, int y)
 
 void  GLUT::display()
 {
-	static int last_gluty;
-	int yDir = 0;
-
-	if (gluty < last_gluty) yDir = -1;
-	if (gluty > last_gluty) yDir = +1;
-	last_gluty = gluty;
-
 	if (left||middle)
 	{
 		motion(glutx,gluty);
@@ -218,9 +211,10 @@ void GLUT::start(void(*displayFunc)(void), int width, int height)
 	W_HEIGHT = height;
 	dfunc    = displayFunc;
 
-	int c = 1;
-	char* empty = "";
-	glutInit(&c, &empty);
+	char param[] = "GLUT";
+	char *argv[] = { param, NULL };
+	int argc = 1;
+	glutInit( &argc, argv );
 
 	glutInitDisplayString	("rgb double depth>=16");
 	glutInitWindowSize		(W_WIDTH, W_HEIGHT);

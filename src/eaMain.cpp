@@ -283,11 +283,20 @@ void display(void)
 
 //------------------------------------------------------------------------
 
-int main(void)
+int main(int argc, char* argv[])
 {
-//	g_room.import("../data/sigyn.room");
-	g_room.import("../data/kuunteluhuone.room");
-//	g_room.import("../data/t3diff.room");
+	// Check the number of parameters
+	if (argc < 1) {
+		// Tell the user how to run the program
+		printf("Usage: %s FILENAME \n", argv[0]);
+		return 1;
+	}
+	const char* filename = argv[1];
+
+	if (!g_room.import(filename)){
+		printf("Failed to import room: %s \n", filename);
+		return 1;
+	}
 
 	// setup initial camera position
 	Matrix3x4 cameraMtx;
