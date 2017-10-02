@@ -44,7 +44,7 @@ public:
 	class TempNode;
 private:
 	TempNode*		m_hierarchy;
-	intptr_t*	m_list;
+	uintptr_t*	m_list;
 	AABB			m_aabb;
 };
 

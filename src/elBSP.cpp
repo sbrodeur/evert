@@ -72,7 +72,7 @@ namespace {
 		float				v;
 		union {
 			const Polygon*	polygon;
-			intptr_t	iptr;
+			uintptr_t	iptr;
 		};
 	};
 	bool operator<(const SortItem& a, const SortItem& b)
@@ -111,7 +111,7 @@ EL_FORCE_INLINE static void insertionSort(SortItem* items, int N)
 EL_FORCE_INLINE static int median3(int low, int high)
 {
 	int l = low;
-	int c = (intptr_t)(high + low)>>1;
+	int c = (uintptr_t)(high + low)>>1;
 	int h = high-2;
 
 	SortItem lv = g_items[l];
@@ -261,7 +261,7 @@ namespace
 {
 	struct RecursionEntry
 	{
-		intptr_t* ptr;
+		uintptr_t* ptr;
 		float		  dEnter;
 		float		  dExit;
 	};
@@ -368,7 +368,7 @@ static BSP::TempNode* constructRecursive(const Polygon** polygons, int numPolygo
 
 //------------------------------------------------------------------------
 
-static intptr_t* convertRecursive(BSP::TempNode* node, intptr_t* list)
+static uintptr_t* convertRecursive(BSP::TempNode* node, uintptr_t* list)
 {
 	if (node->m_splitAxis < 0)
 	{
@@ -380,14 +380,14 @@ static intptr_t* convertRecursive(BSP::TempNode* node, intptr_t* list)
 		}
 		*list++ = (node->m_numPolygons << 2) | 3;
 		for (int i=0; i < node->m_numPolygons; i++)
-			*list++ = (intptr_t)node->m_polygons[i];
+			*list++ = (uintptr_t)node->m_polygons[i];
 		return list;
 	}
 
 	// inside node
-	intptr_t* pRight = convertRecursive(node->m_children[0], list+2);
-	list[0] = ((intptr_t)pRight) + node->m_splitAxis;
-	list[1] = *((intptr_t*)&node->m_splitPos);
+	uintptr_t* pRight = convertRecursive(node->m_children[0], list+2);
+	list[0] = ((uintptr_t)pRight) + node->m_splitAxis;
+	list[1] = *((uintptr_t*)&node->m_splitPos);
 	return convertRecursive(node->m_children[1], pRight);
 }
 
@@ -408,9 +408,9 @@ BSP::~BSP(void)
 
 //------------------------------------------------------------------------
 
-static void convertHierarchy(BSP::TempNode* root, intptr_t* list)
+static void convertHierarchy(BSP::TempNode* root, uintptr_t* list)
 {
-	intptr_t* end  = convertRecursive(root, list);
+	uintptr_t* end  = convertRecursive(root, list);
 	printf("list size: %ld bytes (%.2f Mb)\n", (end-list)*4, (float)(end-list)*4.f/1024.f/1024.f);
 }
 
@@ -470,7 +470,7 @@ void BSP::constructHierarchy(const Polygon** polygons, int numPolygons)
 	delete[] g_items;
 
 	// convert
-	m_list = new intptr_t[g_listSize];
+	m_list = new uintptr_t[g_listSize];
 	convertHierarchy(m_hierarchy, m_list);
 
 	// delete the temp hierarchy
@@ -513,9 +513,9 @@ EL_FORCE_INLINE static void setupRayCast(const Ray& ray)
 	g_dir  = g_dest - g_orig;
 
 	g_invdir.set(1.f/g_dir.x, 1.f/g_dir.y, 1.f/g_dir.z);
-	g_dirsgn[0] = *((intptr_t*)&g_invdir[0]) >> 31;
-	g_dirsgn[1] = *((intptr_t*)&g_invdir[1]) >> 31;
-	g_dirsgn[2] = *((intptr_t*)&g_invdir[2]) >> 31;
+	g_dirsgn[0] = *((uintptr_t*)&g_invdir[0]) >> 31;
+	g_dirsgn[1] = *((uintptr_t*)&g_invdir[1]) >> 31;
+	g_dirsgn[2] = *((uintptr_t*)&g_invdir[2]) >> 31;
 }
 
 EL_FORCE_INLINE static float getSplitDistance(float splitPos, int axis)
@@ -575,7 +575,7 @@ EL_FORCE_INLINE static bool isectPolygonsAny(const Polygon** list, int numPolygo
 
 //------------------------------------------------------------------------
 
-EL_FORCE_INLINE static bool rayCastListAny(intptr_t* listOrig, float dEnterOrig, float dExitOrig)
+EL_FORCE_INLINE static bool rayCastListAny(uintptr_t* listOrig, float dEnterOrig, float dExitOrig)
 {
 	if (dEnterOrig < 0.f) dEnterOrig = 0.f;
 	if (dExitOrig  > 1.f) dExitOrig  = 1.f;
@@ -590,10 +590,10 @@ EL_FORCE_INLINE static bool rayCastListAny(intptr_t* listOrig, float dEnterOrig,
 	while (stack != g_recursionStack)
 	{
 		--stack;
-		intptr_t* list   = stack->ptr;
+		uintptr_t* list   = stack->ptr;
 		float dEnter		 = stack->dEnter;
 		float dExit			 = stack->dExit;
-		intptr_t pRight	 = *list++;
+		uintptr_t pRight	 = *list++;
 
 label_skipstack:
 
@@ -610,7 +610,7 @@ label_skipstack:
 		int   a = pRight&3;
 		float d = getSplitDistance(*((float*)list), a);
 
-		intptr_t* ch[2] = { list+1, (intptr_t*)(pRight-a) };
+		uintptr_t* ch[2] = { list+1, (uintptr_t*)(pRight-a) };
 		if (g_dirsgn[a])
 			swap(ch[1], ch[0]);
 
@@ -681,7 +681,7 @@ EL_FORCE_INLINE static const Polygon* isectPolygons(const Polygon** list, int nu
 
 //------------------------------------------------------------------------
 
-EL_FORCE_INLINE static const Polygon* rayCastList(intptr_t* listOrig, float dEnterOrig, float dExitOrig)
+EL_FORCE_INLINE static const Polygon* rayCastList(uintptr_t* listOrig, float dEnterOrig, float dExitOrig)
 {
 	if (dEnterOrig < 0.f) dEnterOrig = 0.f;
 	if (dExitOrig  > 1.f) dExitOrig  = 1.f;
@@ -696,10 +696,10 @@ EL_FORCE_INLINE static const Polygon* rayCastList(intptr_t* listOrig, float dEnt
 	while (stack != g_recursionStack)
 	{
 		--stack;
-		intptr_t* list   = stack->ptr;
+		uintptr_t* list   = stack->ptr;
 		float dEnter		 = stack->dEnter;
 		float dExit			 = stack->dExit;
-		intptr_t pRight	 = *list++;
+		uintptr_t pRight	 = *list++;
 
 label_skipstack:
 
@@ -717,7 +717,7 @@ label_skipstack:
 		int   a = pRight&3;
 		float d = getSplitDistance(*((float*)list), a);
 
-		intptr_t* ch[2] = { list+1, (intptr_t*)(pRight-a) };
+		uintptr_t* ch[2] = { list+1, (uintptr_t*)(pRight-a) };
 		if (g_dirsgn[a])
 			swap(ch[1], ch[0]);
 
@@ -777,9 +777,9 @@ EL_FORCE_INLINE static bool intersectAABBFrustum(const Vector3& m,
 	return true;
 }
 
-static void beamCastRecursive(intptr_t* list)
+static void beamCastRecursive(uintptr_t* list)
 {
-	intptr_t pRight	 = *list++;
+	uintptr_t pRight	 = *list++;
 
 	if (g_beamBeam->numPleqs() && !intersectAABBFrustum(g_beamMid, g_beamDiag, &g_beamBeam->getPleq(0), g_beamBeam->numPleqs()))
 		return;
@@ -801,10 +801,10 @@ static void beamCastRecursive(intptr_t* list)
 	}
 
 	// recurse
-	intptr_t axis	  = pRight & 3;
+	uintptr_t axis	  = pRight & 3;
 	float		 splitPos = *((float*)list);
 
-	intptr_t* ch[2] = { list+1, (intptr_t*)(pRight-axis) };
+	uintptr_t* ch[2] = { list+1, (uintptr_t*)(pRight-axis) };
 
 	float om = g_beamMid[axis];
 	float od = g_beamDiag[axis];

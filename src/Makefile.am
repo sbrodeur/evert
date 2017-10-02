@@ -1,6 +1,6 @@
 #FIXME: compilation needs to be done in 32bit mode only, seek why
-AM_CPPFLAGS = -Wall -m32 -g -I$(top_srcdir)/include
-AM_LDFLAGS = 
+AM_CPPFLAGS = -Wall -I$(top_srcdir)/include
+AM_LDFLAGS = -Wall
 
 bin_PROGRAMS = evert
 evert_SOURCES = eaMain.cpp elBeam.cpp elBSP.cpp elGLUT.cpp elListener.cpp elOrientedPoint.cpp elPathSolution.cpp elPolygon.cpp elRay.cpp elRoom.cpp elSource.cpp elTimer.cpp elVector.cpp
