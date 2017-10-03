@@ -411,7 +411,7 @@ BSP::~BSP(void)
 static void convertHierarchy(BSP::TempNode* root, uintptr_t* list)
 {
 	uintptr_t* end  = convertRecursive(root, list);
-	printf("list size: %ld bytes (%.2f Mb)\n", (end-list)*4, (float)(end-list)*4.f/1024.f/1024.f);
+	printf("list size: %ld bytes (%.2f Mb)\n", (end-list)*sizeof(uintptr_t), (float)(end-list)*float(sizeof(uintptr_t))/1024.f/1024.f);
 }
 
 //------------------------------------------------------------------------
@@ -513,9 +513,9 @@ EL_FORCE_INLINE static void setupRayCast(const Ray& ray)
 	g_dir  = g_dest - g_orig;
 
 	g_invdir.set(1.f/g_dir.x, 1.f/g_dir.y, 1.f/g_dir.z);
-	g_dirsgn[0] = *((uintptr_t*)&g_invdir[0]) >> 31;
-	g_dirsgn[1] = *((uintptr_t*)&g_invdir[1]) >> 31;
-	g_dirsgn[2] = *((uintptr_t*)&g_invdir[2]) >> 31;
+	g_dirsgn[0] = *((uintptr_t*)&g_invdir[0]) >> (8*sizeof(uintptr_t) - 1);
+	g_dirsgn[1] = *((uintptr_t*)&g_invdir[1]) >> (8*sizeof(uintptr_t) - 1);
+	g_dirsgn[2] = *((uintptr_t*)&g_invdir[2]) >> (8*sizeof(uintptr_t) - 1);
 }
 
 EL_FORCE_INLINE static float getSplitDistance(float splitPos, int axis)

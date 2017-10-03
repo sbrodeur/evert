@@ -1,7 +1,7 @@
 
 # EVERT
 
-Accelerated beam tracing algorithm adapted from the original source code of Samuli Laine.
+Accelerated beam tracing algorithm adapted from the original source code by Samuli Laine.
 
 ![alt tag](https://github.com/sbrodeur/evert/raw/master/doc/images/evert.jpg)
 
@@ -9,7 +9,7 @@ Main requirements:
 - OpenGL, GLUT
 - autoconf, automake, make
 
-NOTE: The code currently works only in 32-bit mode.
+NOTE: The code currently works in 32-bit mode only.
 
 ## Dependencies on Ubuntu:
 
@@ -77,5 +77,4 @@ author = "Samuli Laine and Samuel Siltanen and Tapio Lokki and Lauri Savioja",
 keywords = "Beam tracing",
 abstract = "Abstract Determining early specular reflection paths is essential for room acoustics modeling. Beam tracing algorithms have been used to calculate these paths efficiently, thus allowing modeling of acoustics in real-time with a moving listener in simple, or complex but densely occluded, environments with a stationary sound source. In this paper, it is shown that beam tracing algorithms can still be optimized by utilizing the spatial coherence in path validation with a moving listener. Since the precalculations required for the presented technique are relatively fast, the acoustic reflection paths can be calculated even for a moving source in simple cases. Simulations were performed to show how the accelerated algorithm compares with the basic algorithm with varying scene complexity and occlusion. Up to two-orders of magnitude speed-up was achieved."
 }
-
 ```

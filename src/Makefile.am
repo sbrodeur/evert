@@ -1,4 +1,3 @@
-#FIXME: compilation needs to be done in 32bit mode only, seek why
 AM_CPPFLAGS = -Wall -I$(top_srcdir)/include
 AM_LDFLAGS = -Wall
 
