@@ -6,6 +6,14 @@
 #include "elPolygon.hpp"
 %}
 
+%include "std_vector.i"
+
+// Instantiate used templates
+%template(Vector3Vector) std::vector<EL::Vector3>;
+%template(PolygonVector) std::vector<EL::Polygon>;
+%template(IntVector) std::vector<int>;
+%template(IntVectorVector) std::vector< std::vector<int> >;
+
 namespace EL
 {
 

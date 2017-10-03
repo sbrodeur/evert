@@ -32,15 +32,6 @@ static const int   DISTANCE_SKIP_BUCKET_SIZE	= 16;
 
 //------------------------------------------------------------------------
 
-struct PathSolution::SolutionNode
-{
-public:
-	int				m_parent;
-	const Polygon*	m_polygon;
-};
-
-//------------------------------------------------------------------------
-
 void PathSolution::renderPath(const Path& path) const
 {
 	glPushAttrib(GL_ALL_ATTRIB_BITS);

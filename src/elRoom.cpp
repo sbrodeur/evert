@@ -127,14 +127,105 @@ bool Room::import(const char* filename)
 	printf("  convex elements:   %d\n", m_convexElements.size());
 	printf("  max. planar error: %.2g mm\n", maxNonPlanarity);
 
+	constructBSP();
+
+	return true;
+}
+
+bool Room::importGeometry(const char* filename)
+{
+	FILE* f = fopen(filename, "r");
+	if (!f)
+		return false;
+
+	float maxNonPlanarity = 0.f;
+	while(!feof(f))
+	{
+		int itemType = 0;
+		fscanf(f, "%d", &itemType);
+
+		if (itemType != 1)
+		{
+			// skip the rest of the line
+			char line[1024];
+			fgets(line, 1024, f);
+			continue;
+		}
+
+		// read element color, skip unknown number
+		Vector3 color;
+		fscanf(f, "%*d %f %f %f", &color.x, &color.y, &color.z);
+
+		// number of points
+		int numPoints;
+		fscanf(f, "%d", &numPoints);
+
+		// read points
+		std::vector<Vector3> points(numPoints);
+		for (int j=0; j < numPoints; j++)
+			fscanf(f, "%f %f %f", &points[j].x, &points[j].y, &points[j].z);
+
+		// create polygon and split into convex parts
+		Polygon poly(points);
+		maxNonPlanarity = max2(maxNonPlanarity, poly.getNonPlanarity());
+		std::vector<Polygon> parts;
+		poly.splitConvex(parts);
+
+		// add original element
+		Element elem;
+		elem.m_color   = color;
+		elem.m_polygon = poly;
+		m_elements.push_back(elem);
+
+		// add an element for each convex part
+		for (int i=0; i < (int)parts.size(); i++)
+		{
+			Element elem;
+			elem.m_color   = color;
+			elem.m_polygon = parts[i];
+			m_convexElements.push_back(elem);
+		}
+	}
+	fclose(f);
+
+	printf("room '%s' imported\n", filename);
+	printf("  original elements: %d\n", m_elements.size());
+	printf("  convex elements:   %d\n", m_convexElements.size());
+	printf("  max. planar error: %.2g mm\n", maxNonPlanarity);
+
+	constructBSP();
+
+	return true;
+}
+
+void Room::addPolygon(Polygon& poly, const Vector3& color)
+{
+	std::vector<Polygon> parts;
+	poly.splitConvex(parts);
+
+	// add original element
+	Element elem;
+	elem.m_color   = color;
+	elem.m_polygon = poly;
+	m_elements.push_back(elem);
+
+	// add an element for each convex part
+	for (int i=0; i < (int)parts.size(); i++)
+	{
+		Element elem;
+		elem.m_color   = color;
+		elem.m_polygon = parts[i];
+		m_convexElements.push_back(elem);
+	}
+}
+
+void Room::constructBSP(void){
 	// construct BSP
 	std::vector<const Polygon*> polygons;
 	for (int i=0; i < numConvexElements(); i++)
 		polygons.push_back(&getConvexElement(i).m_polygon);
 	m_bsp = new BSP();
 	m_bsp->constructHierarchy(&polygons[0], polygons.size());
-
-	return true;
 }
 
 //------------------------------------------------------------------------

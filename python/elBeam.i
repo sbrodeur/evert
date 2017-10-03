@@ -6,6 +6,11 @@
 #include "elBeam.hpp"
 %}
 
+%include "std_vector.i"
+
+// Instantiate used templates
+%template(Vector4Vector) std::vector<EL::Vector4>;
+
 namespace EL {
 class Beam
 {

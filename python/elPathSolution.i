@@ -6,6 +6,15 @@
 #include "elPathSolution.hpp"
 %}
 
+%include "std_vector.i"
+
+// Instantiate used templates
+%template(ConstPolygonPtrVector) std::vector<const EL::Polygon*>;
+%template(Vector3Vector) std::vector<EL::Vector3>;
+%template(Vector4Vector) std::vector<EL::Vector4>;
+%template(SolutionNodeVector) std::vector<EL::SolutionNode>;
+%template(PathVector) std::vector<EL::Path>;
+
 namespace EL
 {
 

@@ -6,6 +6,11 @@
 #include "elBSP.hpp"
 %}
 
+%include "std_vector.i"
+
+// Instantiate used templates
+%template(ConstPolygonPtrVector) std::vector<const EL::Polygon*>;
+
 namespace EL
 {
 

@@ -58,16 +58,13 @@ make
 To install the Python bindings system-wide:
 ```
 cd $HOME/work/evert/python
-swig -c++ -python -I../include evert.i
 sudo python setup.py install
 ```
 
 To compile and install it locally (development mode):
 ```
 cd $HOME/work/evert/python
-swig -c++ -python -I../include evert.i
 python setup.py build_ext --inplace
-python -c 'import evert'
 ```
 
 Note that in development mode the library must be in the PYTHONPATH environment variable for Python to be able to find it:

@@ -45,6 +45,9 @@ public:
 							~Room				(void);
 
 	bool					import				(const char* filename);
+	bool					importGeometry		(const char* filename);
+	void					addPolygon			(Polygon& poly, const Vector3& color);
+	void 					constructBSP		(void);
 
 	int						numElements			(void) const	{ return m_elements.size(); }
 	const Element&			getElement			(int i) const	{ EL_ASSERT(i >= 0 && i < numElements()); return m_elements[i]; }
@@ -55,10 +58,12 @@ public:
 	Element&				getConvexElement	(int i)			{ EL_ASSERT(i >= 0 && i < numConvexElements()); return m_convexElements[i]; }
 
 	int						numSources			(void) const	{ return m_sources.size(); }
+	void					addSource			(const Source& s) { m_sources.push_back(s); }
 	const Source&			getSource			(int i) const	{ EL_ASSERT(i >= 0 && i < numSources()); return m_sources[i]; }
 	Source&					getSource			(int i)			{ EL_ASSERT(i >= 0 && i < numSources()); return m_sources[i]; }
 
 	int						numListeners		(void) const	{ return m_listeners.size(); }
+	void					addListener			(const Listener& l) { m_listeners.push_back(l); }
 	const Listener&			getListener			(int i) const	{ EL_ASSERT(i >= 0 && i < numListeners()); return m_listeners[i]; }
 	Listener&				getListener			(int i)			{ EL_ASSERT(i >= 0 && i < numListeners()); return m_listeners[i]; }
 

@@ -32,6 +32,14 @@ struct Path
 	std::vector<const Polygon*>	m_polygons;
 };
 
+
+struct SolutionNode
+{
+public:
+	int				m_parent;
+	const Polygon*	m_polygon;
+};
+
 class PathSolution
 {
 public:
@@ -50,8 +58,6 @@ public:
 private:
 								PathSolution	(const PathSolution&);	// prohibit
 	const PathSolution&			operator=		(const PathSolution&);	// prohibit
-
-	struct SolutionNode;
 
 	void						solveRecursive	(const Vector3& source,
 												 const Vector3& target,
