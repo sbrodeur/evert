@@ -9,8 +9,6 @@ Main requirements:
 - OpenGL, GLUT
 - autoconf, automake, make
 
-NOTE: The code currently works in 32-bit mode only.
-
 ## Dependencies on Ubuntu:
 
 Install the dependencies:
@@ -22,13 +20,6 @@ sudo apt-get install mesa-common-dev
 sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev libgl1-mesa-dev
 ```
 
-You will also need the 32-bit libraries: 
-```
-sudo apt-get install libgl-dev:i386
-sudo apt-get install mesa-common-dev:i386
-sudo apt-get install libglu1-mesa-dev:i386 freeglut3-dev:i386 mesa-common-dev:i386 libgl1-mesa-dev:i386
-```
-
 ## Installing the library
 
 Download the source code from the git repository:
@@ -38,21 +29,21 @@ cd $HOME/work
 git clone https://github.com/sbrodeur/evert.git
 ```
 
-Compile the source code (32-bit mode, debug enabled):
+Compile the source code (debug enabled):
 ```
 aclocal
 autoconf
 automake --add-missing
-./configure CFLAGS='-m32 -g -O0' CXXFLAGS='-m32 -g -O0' LDFLAGS='-m32'
+./configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
 make
 ```
 
-For maximum performance, use this instead (32-bit mode, optimization enabled):
+For maximum performance, use this instead (optimization enabled):
 ```
 aclocal
 autoconf
 automake --add-missing
-./configure CFLAGS='-m32 -O2' CXXFLAGS='-m32 -O2' LDFLAGS='-m32'
+./configure CFLAGS='-O2' CXXFLAGS='-O2'
 make
 ```
 
