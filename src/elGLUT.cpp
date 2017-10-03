@@ -16,7 +16,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <GL/glut.h>
-#include <X11/Xlib.h>
 
 using namespace EL;
 

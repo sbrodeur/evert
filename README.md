@@ -6,15 +6,19 @@ Accelerated beam tracing algorithm adapted from the original source code by Samu
 ![alt tag](https://github.com/sbrodeur/evert/raw/master/doc/images/evert.jpg)
 
 Main requirements:
+- autoconf, automake, make, swig
 - OpenGL, GLUT
-- autoconf, automake, make
 
 ## Dependencies on Ubuntu:
 
-Install the dependencies:
+Install the basic dependencies:
 ```
 sudo apt-get install build-essential
-sudo apt-get install autoconf automake make
+sudo apt-get install autoconf automake libtool swig make
+```
+
+Install the OpenGL and GLUT dependencies:
+```
 sudo apt-get install libgl-dev
 sudo apt-get install mesa-common-dev
 sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev libgl1-mesa-dev
@@ -31,6 +35,7 @@ git clone https://github.com/sbrodeur/evert.git
 
 Compile the source code (debug enabled):
 ```
+cd $HOME/work/evert
 aclocal
 autoconf
 automake --add-missing
@@ -40,12 +45,36 @@ make
 
 For maximum performance, use this instead (optimization enabled):
 ```
+cd $HOME/work/evert
 aclocal
 autoconf
 automake --add-missing
 ./configure CFLAGS='-O2' CXXFLAGS='-O2'
 make
 ```
+
+## Compiling the Python bindings
+
+To install the Python bindings system-wide:
+```
+cd $HOME/work/evert/python
+swig -c++ -python -I../include evert.i
+sudo python setup.py install
+```
+
+To compile and install it locally (development mode):
+```
+cd $HOME/work/evert/python
+swig -c++ -python -I../include evert.i
+python setup.py build_ext --inplace
+python -c 'import evert'
+```
+
+Note that in development mode the library must be in the PYTHONPATH environment variable for Python to be able to find it:
+```
+export PYTHONPATH=$HOME/work/evert/python:$PYTHONPATH
+```
+This can also be added at the end of the configuration file $HOME/.bashrc
 
 ## Citation
 

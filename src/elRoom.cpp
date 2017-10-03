@@ -193,7 +193,7 @@ void Room::render(void) const
 	if (!GLUT::getKey('p'))
 	for (int i=0; i < numConvexElements(); i++)
 	{
-		const Room::Element& e = getConvexElement(i);
+		const Element& e = getConvexElement(i);
 		Vector3 color = e.m_color;
 
 		float ldot = dot(e.m_polygon.getNormal(), normalize(Vector3(3,2,4)));
@@ -212,7 +212,7 @@ void Room::render(void) const
 	glLineWidth(1.f);
 	for (int i=0; i < numElements(); i++)
 	{
-		const Room::Element& e = getElement(i);
+		const Element& e = getElement(i);
 		glColor3f(1.f, 1.f, 1.f);
 		Vector3 color = e.m_color;
 		glColor3fv(&color.x);

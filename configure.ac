@@ -2,6 +2,10 @@ AC_INIT([evert], [1.0], [samuli.laine@tml.hut.fi])
 AM_INIT_AUTOMAKE
 AC_PROG_CXX
 
+AC_ENABLE_SHARED
+AC_DISABLE_STATIC
+LT_INIT
+
 PKG_CHECK_MODULES(GL, [gl], [], [
 		  AC_CHECK_HEADER([GL/gl.h],
 		  		  [],

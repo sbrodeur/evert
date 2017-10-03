@@ -25,16 +25,16 @@ class Polygon;
 class Room;
 class Source;
 
+struct Path
+{
+	int							m_order;
+	std::vector<Vector3>		m_points;
+	std::vector<const Polygon*>	m_polygons;
+};
+
 class PathSolution
 {
 public:
-	struct Path
-	{
-		int							m_order;
-		std::vector<Vector3>		m_points;
-		std::vector<const Polygon*>	m_polygons;
-	};
-
 
 								PathSolution	(const Room& room,
 												 const Source& source,

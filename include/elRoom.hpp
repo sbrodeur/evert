@@ -28,15 +28,16 @@ namespace EL
 
 //--------------------------------------------------------------------
 
+struct Element
+{
+	Polygon	m_polygon;
+	Vector3	m_color;
+};
+
 class BSP;
 class Room
 {
 public:
-	struct Element
-	{
-		Polygon	m_polygon;
-		Vector3	m_color;
-	};
 
 	//--------------------------------------------------------------------
 
