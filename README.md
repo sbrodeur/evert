@@ -38,6 +38,7 @@ Compile the source code (debug enabled):
 cd $HOME/work/evert
 aclocal
 autoconf
+libtoolize
 automake --add-missing
 ./configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
 make
@@ -49,6 +50,7 @@ For maximum performance, use this instead (optimization enabled):
 cd $HOME/work/evert
 aclocal
 autoconf
+libtoolize
 automake --add-missing
 ./configure CFLAGS='-O2' CXXFLAGS='-O2'
 make
