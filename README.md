@@ -62,6 +62,7 @@ You may have to add this directory to the LD_LIBRARY_PATH environment variable:
 ```
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ```
+This can also be added at the end of the configuration file $HOME/.bashrc
 
 ## Compiling the Python bindings
 
@@ -85,20 +86,20 @@ This can also be added at the end of the configuration file $HOME/.bashrc
 
 ## Running the main program:
 
-To visualize the acoustic beam tracing of included room data: 
+To visualize acoustic beam tracing of a room (sigyn) for included room data: 
 ```
 evert $HOME/work/evert/data/sigyn.room
 ```
 
 ## Running the samples (Python):
 
-To simulate the acoustic beam tracing for a procedurally-created cube: 
+To simulate acoustic beam tracing for a procedurally-created cube: 
 ```
 cd $HOME/work/evert/python/samples
 python cube.py
 ```
 
-To simulate the acoustic beam tracing of a room (kuunteluhuone) included room data: 
+To simulate acoustic beam tracing of a room (kuunteluhuone) for included room data: 
 ```
 cd $HOME/work/evert/python/samples
 python room.py
