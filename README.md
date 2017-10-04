@@ -41,6 +41,7 @@ autoconf
 automake --add-missing
 ./configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
 make
+sudo make install
 ```
 
 For maximum performance, use this instead (optimization enabled):
@@ -51,11 +52,18 @@ autoconf
 automake --add-missing
 ./configure CFLAGS='-O2' CXXFLAGS='-O2'
 make
+sudo make install
+```
+
+By default, the shared library will be installed under _/usr/local/lib_ .
+You may have to add this directory to the LD_LIBRARY_PATH environment variable:
+```
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 ```
 
 ## Compiling the Python bindings
 
-To install the Python bindings system-wide:
+To compile and install the Python bindings system-wide:
 ```
 cd $HOME/work/evert/python
 sudo python setup.py install
@@ -72,6 +80,27 @@ Note that in development mode the library must be in the PYTHONPATH environment 
 export PYTHONPATH=$HOME/work/evert/python:$PYTHONPATH
 ```
 This can also be added at the end of the configuration file $HOME/.bashrc
+
+## Running the main program:
+
+To visualize the acoustic beam tracing of included room data: 
+```
+evert $HOME/work/evert/data/sigyn.room
+```
+
+## Running the samples (Python):
+
+To simulate the acoustic beam tracing for a procedurally-created cube: 
+```
+cd $HOME/work/evert/python/samples
+python cube.py
+```
+
+To simulate the acoustic beam tracing of a room (kuunteluhuone) included room data: 
+```
+cd $HOME/work/evert/python/samples
+python room.py
+```
 
 ## Citation
 
