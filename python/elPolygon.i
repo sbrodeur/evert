@@ -14,6 +14,15 @@
 %template(IntVector) std::vector<int>;
 %template(IntVectorVector) std::vector< std::vector<int> >;
 
+%extend EL::Polygon{
+    EL_FORCE_INLINE Vector3& __getitem__(int i) {
+        return (*self)[i];
+    }
+    EL_FORCE_INLINE const Vector3& __getitem__(int i) const {
+        return (*self)[i];
+    }
+}
+
 namespace EL
 {
 
@@ -28,7 +37,9 @@ public:
 									Polygon		(const Polygon& p);
 									Polygon		(const Vector3* points, int numPoints);
 									Polygon		(const Vector3* points, int numPoints, const Vector4& pleq);
+									Polygon		(const Vector3* points, int numPoints, const Vector4& pleq, unsigned int materialId);
 									Polygon		(const std::vector<Vector3>& points);
+									Polygon		(const std::vector<Vector3>& points, unsigned int materialId);
 									~Polygon	(void);
 
 	const Polygon&					operator=	(const Polygon& p);
@@ -59,6 +70,9 @@ public:
 
 	void							render		(const Vector3& color) const;
 
+	unsigned int					getMaterialId (void) const;
+	void							setMaterialId (unsigned int id);
+
 private:
 	void							calculatePleq(void);
 	static bool						mergePartials(std::vector<std::vector<int> >& partials, const std::vector<Vector3>& vertices);
@@ -70,6 +84,7 @@ private:
 	static std::vector<Vector3>		s_clipBuffer[2];
 	std::vector<Vector3>			m_points;
 	Vector4							m_pleq;
+	unsigned int					m_materialId;
 };
 
 //------------------------------------------------------------------------

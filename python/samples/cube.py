@@ -37,7 +37,7 @@ def main():
     room = Room()
     
     # Define a simple cube (1000 x 1000 x 1000 mm) as room geometry
-    face1poly = Polygon([Vector3(0,0,0), Vector3(0,1000,0), Vector3(1000,1000,0), Vector3(1000,0,0)])
+    face1poly = Polygon([Vector3(0,0,0), Vector3(0,1000,0), Vector3(1000,1000,0), Vector3(1000,0,0)], 1)
     face2poly = Polygon([Vector3(0,0,0), Vector3(0,1000,0), Vector3(0,1000,1000), Vector3(0,0,1000)])
     face3poly = Polygon([Vector3(0,0,0), Vector3(1000,0,0), Vector3(1000,0,1000), Vector3(0,0,1000)])
     face4poly = Polygon([Vector3(0,0,1000), Vector3(0,1000,1000), Vector3(1000,1000,1000), Vector3(1000,0,1000)])

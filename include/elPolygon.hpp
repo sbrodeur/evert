@@ -50,7 +50,9 @@ public:
 									Polygon		(const Polygon& p);
 									Polygon		(const Vector3* points, int numPoints);
 									Polygon		(const Vector3* points, int numPoints, const Vector4& pleq);
+									Polygon		(const Vector3* points, int numPoints, const Vector4& pleq, unsigned int materialId);
 									Polygon		(const std::vector<Vector3>& points);
+									Polygon		(const std::vector<Vector3>& points, unsigned int materialId);
 									~Polygon	(void);
 
 	const Polygon&					operator=	(const Polygon& p);
@@ -81,6 +83,9 @@ public:
 
 	void							render		(const Vector3& color) const;
 
+	unsigned int					getMaterialId (void) const { return m_materialId; }
+	void							setMaterialId (unsigned int id) { m_materialId = id; }
+
 private:
 	void							calculatePleq(void);
 	static bool						mergePartials(std::vector<std::vector<int> >& partials, const std::vector<Vector3>& vertices);
@@ -92,6 +97,7 @@ private:
 	static std::vector<Vector3>		s_clipBuffer[2];
 	std::vector<Vector3>			m_points;
 	Vector4							m_pleq;
+	unsigned int					m_materialId;
 };
 
 //------------------------------------------------------------------------

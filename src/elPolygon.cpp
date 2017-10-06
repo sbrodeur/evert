@@ -41,20 +41,23 @@ CPUTimer t_polyClip;
 //------------------------------------------------------------------------
 
 Polygon::Polygon(void)
-:	m_pleq(0.f, 0.f, 0.f, 0.f)
+:	m_pleq(0.f, 0.f, 0.f, 0.f),
+	m_materialId(0)
 {
 	// empty
 }
 
 Polygon::Polygon(const Polygon& p)
 :	m_points(p.m_points),
-	m_pleq	(p.m_pleq)
+	m_pleq	(p.m_pleq),
+	m_materialId(p.m_materialId)
 {
 	// empty
 }
 
 Polygon::Polygon(const Vector3* points, int numPoints)
-:	m_points(numPoints)
+:	m_points(numPoints),
+	m_materialId(0)
 {
 	for (int i=0; i < numPoints; i++)
 		m_points[i] = points[i];
@@ -64,14 +67,32 @@ Polygon::Polygon(const Vector3* points, int numPoints)
 
 Polygon::Polygon(const Vector3* points, int numPoints, const Vector4& pleq)
 :	m_points(numPoints),
-	m_pleq	(pleq)
+	m_pleq	(pleq),
+	m_materialId(0)
+{
+	for (int i=0; i < numPoints; i++)
+		m_points[i] = points[i];
+}
+
+Polygon::Polygon(const Vector3* points, int numPoints, const Vector4& pleq, unsigned int materialId)
+:	m_points(numPoints),
+	m_pleq	(pleq),
+	m_materialId(materialId)
 {
 	for (int i=0; i < numPoints; i++)
 		m_points[i] = points[i];
 }
 
 Polygon::Polygon(const std::vector<Vector3>& points)
-:	m_points(points)
+:	m_points(points),
+	m_materialId(0)
+{
+	calculatePleq();
+}
+
+Polygon::Polygon(const std::vector<Vector3>& points, unsigned int materialId)
+:	m_points(points),
+	m_materialId(materialId)
 {
 	calculatePleq();
 }
@@ -85,6 +106,7 @@ const Polygon& Polygon::operator=(const Polygon& p)
 {
 	m_points = p.m_points;
 	m_pleq   = p.m_pleq;
+	m_materialId = p.m_materialId;
 	return *this;
 }
 
@@ -139,9 +161,10 @@ void Polygon::calculatePleq(void)
 
 //------------------------------------------------------------------------
 
-static std::vector<Polygon>* s_polyTriangles = 0;
-static std::vector<Vector3>* s_polyVertices  = 0;
-static GLenum				 s_polyMode      = 0;
+static std::vector<Polygon>* s_polyTriangles  = 0;
+static std::vector<Vector3>* s_polyVertices   = 0;
+static unsigned int			 s_polyMaterialId = 0;
+static GLenum				 s_polyMode       = 0;
 static EL::Vector4			 s_polyPleq;
 
 static void polyTessBegin(GLenum mode)
@@ -156,7 +179,7 @@ static void polyTessEnd(void)
 	if (s_polyMode == GL_TRIANGLES)
 	{
 		for (int i=0; i < n; i += 3)
-			s_polyTriangles->push_back(Polygon(&(*s_polyVertices)[i], 3, s_polyPleq));
+			s_polyTriangles->push_back(Polygon(&(*s_polyVertices)[i], 3, s_polyPleq, s_polyMaterialId));
 	}
 	else if (s_polyMode == GL_TRIANGLE_FAN)
 	{
@@ -166,7 +189,7 @@ static void polyTessEnd(void)
 		{
 			v[1] = (*s_polyVertices)[i+1];
 			v[2] = (*s_polyVertices)[i+2];
-			s_polyTriangles->push_back(Polygon(v, 3, s_polyPleq));
+			s_polyTriangles->push_back(Polygon(v, 3, s_polyPleq, s_polyMaterialId));
 		}
 	}
 	else if (s_polyMode == GL_TRIANGLE_STRIP)
@@ -178,7 +201,7 @@ static void polyTessEnd(void)
 				v[j] = (*s_polyVertices)[i+j];
 			if (i&1)
 				swap(v[1], v[2]);
-			s_polyTriangles->push_back(Polygon(v, 3, s_polyPleq));
+			s_polyTriangles->push_back(Polygon(v, 3, s_polyPleq, s_polyMaterialId));
 		}
 	}
 	else
@@ -196,9 +219,10 @@ void Polygon::triangulate(std::vector<Polygon>& triangles)
 {
 	std::vector<Vector3> vertices;
 
-	s_polyTriangles = &triangles;
-	s_polyVertices  = &vertices;
-	s_polyPleq		= m_pleq;
+	s_polyTriangles  = &triangles;
+	s_polyVertices   = &vertices;
+	s_polyPleq		 = m_pleq;
+	s_polyMaterialId = m_materialId;
 
 	GLUtesselator* tobj = gluNewTess();
 	gluTessBeginPolygon(tobj, 0);
@@ -279,7 +303,7 @@ void Polygon::splitConvex(std::vector<Polygon>& polygons)
 		for (int j=0; j < n; j++)
 			vloop[j] = vertices[partials[i][j]];
 
-		Polygon poly(&vloop[0], vloop.size(), m_pleq);	// force same pleq
+		Polygon poly(&vloop[0], vloop.size(), m_pleq, m_materialId);	// force same pleq and material id
 		polygons.push_back(poly);
 	}
 }
