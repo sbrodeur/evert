@@ -13,3 +13,4 @@
 %include elRay.i
 %include elRoom.i
 %include elSource.i
+%include elViewer.i
