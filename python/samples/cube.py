@@ -30,7 +30,7 @@
 
 import math
 
-from evert import Room, Source, Listener, Vector3, Matrix3, Polygon, PathSolution
+from evert import Room, Source, Listener, Vector3, Matrix3, Polygon, PathSolution, Viewer
 
 def main():
 
@@ -119,6 +119,9 @@ def main():
                 
             print 'Minimum path length: ', minPathLength
             print 'Maximum path length: ', maxPathLength
+    
+    viewer = Viewer(room, 4)
+    viewer.show()
     
 if __name__ == "__main__":
     main()

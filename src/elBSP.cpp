@@ -130,7 +130,7 @@ EL_FORCE_INLINE static void insertionSort(SortItem* items, int N)
 EL_FORCE_INLINE static int median3(int low, int high)
 {
 	int l = low;
-	int c = (uintptr_t)(high + low)>>1;
+	int c = (unsigned int)(high + low)>>1;
 	int h = high-2;
 
 	SortItem lv = g_items[l];
@@ -532,9 +532,9 @@ EL_FORCE_INLINE static void setupRayCast(const Ray& ray)
 	g_dir  = g_dest - g_orig;
 
 	g_invdir.set(1.f/g_dir.x, 1.f/g_dir.y, 1.f/g_dir.z);
-	g_dirsgn[0] = *((uintptr_t*)&g_invdir[0]) >> (8*sizeof(uintptr_t) - 1);
-	g_dirsgn[1] = *((uintptr_t*)&g_invdir[1]) >> (8*sizeof(uintptr_t) - 1);
-	g_dirsgn[2] = *((uintptr_t*)&g_invdir[2]) >> (8*sizeof(uintptr_t) - 1);
+	g_dirsgn[0] = *((unsigned int*)&g_invdir[0]) >> 31;
+	g_dirsgn[1] = *((unsigned int*)&g_invdir[1]) >> 31;
+	g_dirsgn[2] = *((unsigned int*)&g_invdir[2]) >> 31;
 }
 
 EL_FORCE_INLINE static float getSplitDistance(float splitPos, int axis)
@@ -820,7 +820,7 @@ static void beamCastRecursive(uintptr_t* list)
 	}
 
 	// recurse
-	uintptr_t axis	  = pRight & 3;
+	int axis	  = pRight & 3;
 	float		 splitPos = *((float*)list);
 
 	uintptr_t* ch[2] = { list+1, (uintptr_t*)(pRight-axis) };

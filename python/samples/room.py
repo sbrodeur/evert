@@ -28,16 +28,19 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 # OF SUCH DAMAGE.
 
+import os
 import math
 
-from evert import Room, Source, Listener, Vector3, Matrix3, PathSolution
+from evert import Room, Source, Listener, Vector3, Matrix3, PathSolution, Viewer
+
+CDIR = os.path.dirname(os.path.realpath(__file__))
 
 def main():
 
     room = Room()
     
     # Load geometry from file
-    filename = '../../data/kuunteluhuone.room'
+    filename = os.path.join(CDIR, '../../data/kuunteluhuone.room')
     room.importGeometry(filename)
     print 'Using room geometry file: ', filename
     
@@ -98,6 +101,9 @@ def main():
                 
             print 'Minimum path length: ', minPathLength
             print 'Maximum path length: ', maxPathLength
+
+    viewer = Viewer(room, 4)
+    viewer.show()
 
 if __name__ == "__main__":
     main()
