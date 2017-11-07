@@ -36,11 +36,11 @@ Prepare the source code (debug enabled):
 ```
 aclocal && autoconf && libtoolize && automake --add-missing
 ```
-Configure for development
+Configure for **development**
 
     ./configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
 
-OR configure for optimization
+OR configure for **optimization**
 
     ./configure CFLAGS='-O2' CXXFLAGS='-O2'
 
@@ -64,7 +64,7 @@ To compile and install the Python bindings system-wide:
 cd python
 sudo pip2 install .
 ```
-OR install it in development mode
+OR install it in **development mode**
 
     sudo pip2 install -e .
 
