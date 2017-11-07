@@ -38,6 +38,7 @@
 #include "elTimer.hpp"
 
 #include <GL/glu.h>
+#include <stdio.h>
 
 using namespace EL;
 

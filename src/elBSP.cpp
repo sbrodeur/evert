@@ -34,6 +34,7 @@
 #include "elTimer.hpp"
 
 #include <cstring>
+#include <stdio.h>
 
 using namespace EL;
 
