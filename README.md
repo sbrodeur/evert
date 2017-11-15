@@ -13,15 +13,13 @@ Main requirements:
 
 Install the basic dependencies:
 ```
-sudo apt-get install build-essential
-sudo apt-get install autoconf automake libtool swig make
+sudo apt-get install build-essential autoconf automake libtool swig make
 ```
 
 Install the OpenGL and GLUT dependencies:
 ```
-sudo apt-get install libgl-dev
-sudo apt-get install mesa-common-dev
-sudo apt-get install libglu1-mesa-dev freeglut3-dev mesa-common-dev libgl1-mesa-dev
+sudo apt-get install libgl-dev mesa-common-dev libglu1-mesa-dev \
+freeglut3-dev mesa-common-dev libgl1-mesa-dev
 ```
 
 ## Installing the library
@@ -31,31 +29,25 @@ Download the source code from the git repository:
 mkdir -p $HOME/work
 cd $HOME/work
 git clone https://github.com/sbrodeur/evert.git
+cd evert
 ```
 
-Compile the source code (debug enabled):
+Prepare the source code (debug enabled):
 ```
-cd $HOME/work/evert
-aclocal
-autoconf
-libtoolize
-automake --add-missing
-./configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
-make
-sudo make install
+aclocal && autoconf && libtoolize && automake --add-missing
 ```
+Configure for **development**
 
-For maximum performance, use this instead (optimization enabled):
-```
-cd $HOME/work/evert
-aclocal
-autoconf
-libtoolize
-automake --add-missing
-./configure CFLAGS='-O2' CXXFLAGS='-O2'
-make
-sudo make install
-```
+    ./configure CFLAGS='-g -O0' CXXFLAGS='-g -O0'
+
+OR configure for **optimization**
+
+    ./configure CFLAGS='-O2' CXXFLAGS='-O2'
+
+And finally build the library
+
+    make
+    sudo make install
 
 By default, the shared library will be installed under _/usr/local/lib_ .
 You may have to add this directory to the LD_LIBRARY_PATH environment variable:
@@ -68,21 +60,13 @@ This can also be added at the end of the configuration file $HOME/.bashrc
 
 To compile and install the Python bindings system-wide:
 ```
-cd $HOME/work/evert/python
-sudo python setup.py install
+# assuming you are still in the evert directory
+cd python
+sudo pip2 install .
 ```
+OR install it in **development mode**
 
-To compile and install it locally (development mode):
-```
-cd $HOME/work/evert/python
-python setup.py build_ext --inplace
-```
-
-Note that in development mode the library must be in the PYTHONPATH environment variable for Python to be able to find it:
-```
-export PYTHONPATH=$HOME/work/evert/python:$PYTHONPATH
-```
-This can also be added at the end of the configuration file $HOME/.bashrc
+    sudo pip2 install -e .
 
 ## Running the main program:
 

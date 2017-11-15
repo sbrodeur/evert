@@ -30,3 +30,22 @@
 *.exe
 *.out
 *.app
+
+# compilation artifacts
+src/evert
+src/Makefile*
+src/.libs
+src/.deps
+missing
+*.log
+libtool
+install-sh
+depcomp
+configure
+config*
+compile
+autom4te.cache/
+Makefile*
+aclocal.m4
+ltmain.sh
+
