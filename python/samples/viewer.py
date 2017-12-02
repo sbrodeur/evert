@@ -28,6 +28,7 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
 # OF SUCH DAMAGE.
 
+from __future__ import print_function
 from evert import Room, Source, Listener, Vector3, Matrix3, Polygon, Viewer
 
 def main():
@@ -47,10 +48,10 @@ def main():
     room.constructBSP()
 
     center = room.getCenter()
-    print 'Room maximum length: ', room.getMaxLength()
-    print 'Room center: x=%f, y=%f, z=%f' % (center.x, center.y, center.z)
-    print 'Number of elements: ', room.numElements()
-    print 'Number of convex elements: ', room.numConvexElements()
+    print('Room maximum length: ', room.getMaxLength())
+    print('Room center: x=%f, y=%f, z=%f' % (center.x, center.y, center.z))
+    print('Number of elements: ', room.numElements())
+    print('Number of convex elements: ', room.numConvexElements())
     
     # Create source localized in room
     src1 = Source()
@@ -60,7 +61,7 @@ def main():
                                 0,1,0))
     src1.setName('Src1')
     room.addSource(src1)
-    print 'Number of sources: ', room.numSources()
+    print('Number of sources: ', room.numSources())
     
     # Create listener localized in room
     list1 = Listener()
@@ -78,7 +79,7 @@ def main():
                                  0,1,0))
     list2.setName('Lst2')
     room.addListener(list2)
-    print 'Number of listeners: ', room.numListeners()
+    print('Number of listeners: ', room.numListeners())
     
     viewer = Viewer(room, 4)
     viewer.show()
