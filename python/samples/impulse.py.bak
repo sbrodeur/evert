@@ -487,10 +487,10 @@ if __name__ == '__main__':
     
     # Print some room information
     center = room.getCenter()
-    print('Room maximum length: ', room.getMaxLength())
-    print('Room center: x=%f, y=%f, z=%f' % (center.x, center.y, center.z))
-    print('Number of elements: ', room.numElements())
-    print('Number of convex elements: ', room.numConvexElements())
+    print 'Room maximum length: ', room.getMaxLength()
+    print 'Room center: x=%f, y=%f, z=%f' % (center.x, center.y, center.z)
+    print 'Number of elements: ', room.numElements()
+    print 'Number of convex elements: ', room.numConvexElements()
     
     # Display room layout
     ax = plt3d.Axes3D(plt.figure())

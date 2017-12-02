@@ -42,11 +42,11 @@ def main():
     # Load geometry from file
     filename = os.path.join(CDIR, '../../data/kuunteluhuone.room')
     room.importGeometry(filename)
-    print 'Using room geometry file: ', filename
+    print('Using room geometry file: ', filename)
     
     center = room.getCenter()    
-    print 'Room maximum length: ', room.getMaxLength()
-    print 'Room center: x=%f, y=%f, z=%f' % (center.x, center.y, center.z)
+    print('Room maximum length: ', room.getMaxLength())
+    print('Room center: x=%f, y=%f, z=%f' % (center.x, center.y, center.z))
     
     # Create source
     src1 = Source()
@@ -54,7 +54,7 @@ def main():
     src1.setOrientation(Matrix3(0,0,1,1,0,0,0,1,0))
     src1.setName('Src1')
     room.addSource(src1)
-    print 'Number of sources: ', room.numSources()
+    print('Number of sources: ', room.numSources())
     
     # Create listener
     list1 = Listener()
@@ -62,22 +62,22 @@ def main():
     list1.setOrientation(Matrix3(0,0,-1,-1,0,0,0,1,0))
     list1.setName('Lst1')
     room.addListener(list1)
-    print 'Number of listeners: ', room.numListeners()
+    print('Number of listeners: ', room.numListeners())
     
     for s in range(room.numSources()):
         for l in range(room.numListeners()):
             src = room.getSource(s)
             lst = room.getListener(l)
     
-            print '-----------------------------------'
-            print 'From source %s to listener %s' % (src.getName(), lst.getName())
-            print '-----------------------------------'
+            print('-----------------------------------')
+            print('From source %s to listener %s' % (src.getName(), lst.getName()))
+            print('-----------------------------------')
             
             # Calculate paths
             maximumOrder = 5
             solution = PathSolution(room, src, lst, maximumOrder)
             solution.update()
-            print 'Number of paths calculated: ', solution.numPaths()
+            print('Number of paths calculated: ', solution.numPaths())
             
             # Analyze paths
             minPathLength = None
@@ -99,8 +99,8 @@ def main():
                 if pathLength < minPathLength or minPathLength is None:
                     minPathLength = pathLength
                 
-            print 'Minimum path length: ', minPathLength
-            print 'Maximum path length: ', maxPathLength
+            print('Minimum path length: ', minPathLength)
+            print('Maximum path length: ', maxPathLength)
 
     viewer = Viewer(room, 4)
     viewer.show()
